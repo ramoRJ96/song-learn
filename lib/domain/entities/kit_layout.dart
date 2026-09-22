@@ -10,7 +10,7 @@ class KitLayout {
   final List<KitPiece> pieces;
 }
 
-/// Vue batteur paysage : cymbales en hauteur, fûts au sol, kick au centre.
+/// Vue de dessus paysage, calée sur la maquette Stitch tablette.
 KitLayout buildKitLayout(Size size) {
   const aspect = 16 / 9;
   var stageW = size.width;
@@ -27,50 +27,32 @@ KitLayout buildKitLayout(Size size) {
   );
 
   Offset p(double nx, double ny) => Offset(stage.left + nx * stage.width, stage.top + ny * stage.height);
+  double r(double nw) => stage.width * nw;
+
+  KitPiece piece({
+    required DrumVoice voice,
+    required PieceKind kind,
+    required double nx,
+    required double ny,
+    required double nw,
+  }) {
+    final radius = r(nw);
+    return KitPiece(
+      voice: voice,
+      kind: kind,
+      center: p(nx, ny),
+      rx: radius,
+      ry: radius,
+    );
+  }
 
   final pieces = [
-    KitPiece(
-      voice: DrumVoice.crash,
-      kind: PieceKind.cymbal,
-      center: p(0.20, 0.20),
-      rx: stage.width * 0.105,
-      ry: stage.height * 0.040,
-    ),
-    KitPiece(
-      voice: DrumVoice.hat,
-      kind: PieceKind.cymbal,
-      center: p(0.13, 0.46),
-      rx: stage.width * 0.078,
-      ry: stage.height * 0.030,
-    ),
-    KitPiece(
-      voice: DrumVoice.tomHigh,
-      kind: PieceKind.drum,
-      center: p(0.40, 0.30),
-      rx: stage.width * 0.070,
-      ry: stage.height * 0.072,
-    ),
-    KitPiece(
-      voice: DrumVoice.tomLow,
-      kind: PieceKind.drum,
-      center: p(0.78, 0.50),
-      rx: stage.width * 0.092,
-      ry: stage.height * 0.098,
-    ),
-    KitPiece(
-      voice: DrumVoice.kick,
-      kind: PieceKind.kick,
-      center: p(0.52, 0.56),
-      rx: stage.width * 0.148,
-      ry: stage.height * 0.205,
-    ),
-    KitPiece(
-      voice: DrumVoice.snare,
-      kind: PieceKind.drum,
-      center: p(0.30, 0.64),
-      rx: stage.width * 0.076,
-      ry: stage.height * 0.080,
-    ),
+    piece(voice: DrumVoice.crash, kind: PieceKind.cymbal, nx: 0.18, ny: 0.36, nw: 0.092),
+    piece(voice: DrumVoice.tomHigh, kind: PieceKind.drum, nx: 0.42, ny: 0.34, nw: 0.050),
+    piece(voice: DrumVoice.hat, kind: PieceKind.cymbal, nx: 0.18, ny: 0.70, nw: 0.070),
+    piece(voice: DrumVoice.snare, kind: PieceKind.drum, nx: 0.40, ny: 0.70, nw: 0.078),
+    piece(voice: DrumVoice.kick, kind: PieceKind.kick, nx: 0.58, ny: 0.68, nw: 0.108),
+    piece(voice: DrumVoice.tomLow, kind: PieceKind.drum, nx: 0.80, ny: 0.70, nw: 0.086),
   ];
 
   return KitLayout(stage: stage, pieces: pieces);

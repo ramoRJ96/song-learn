@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../theme/app_theme.dart';
 import '../kit_providers.dart';
 import 'kit_toolbar.dart';
 import 'kit_view.dart';
@@ -14,7 +15,7 @@ class KitPage extends ConsumerWidget {
     final controller = ref.read(kitControllerProvider.notifier);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF101418),
+      backgroundColor: StitchColors.bg,
       body: Column(
         children: [
           SafeArea(
@@ -25,18 +26,6 @@ class KitPage extends ConsumerWidget {
               onBpmChanged: controller.setBpm,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                state.ready
-                    ? 'Touche un fût ou une cymbale. Le groove allume les pièces.'
-                    : 'Préparation du kit…',
-                style: const TextStyle(color: Color(0xFF8B95A5), fontSize: 13),
-              ),
-            ),
-          ),
           Expanded(
             child: KitView(
               lit: state.lit,
@@ -44,7 +33,7 @@ class KitPage extends ConsumerWidget {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(bottom: 14),
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 18),
             child: _SoonChip(),
           ),
         ],
@@ -59,14 +48,28 @@ class _SoonChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF1C2430),
+        color: StitchColors.pill,
         borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0x33E8A23C)),
       ),
-      child: const Text(
-        'Prêt à jouer ?  Apprendre une vraie chanson',
-        style: TextStyle(color: Color(0xFFE8A23C), fontSize: 12, fontWeight: FontWeight.w600),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.play_circle_fill_rounded, size: 16, color: StitchColors.amber),
+          SizedBox(width: 8),
+          Text(
+            'Prêt à jouer ?  Apprendre une vraie chanson',
+            style: TextStyle(
+              color: StitchColors.amber,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(width: 6),
+          Icon(Icons.arrow_forward_rounded, size: 14, color: StitchColors.amber),
+        ],
       ),
     );
   }
